@@ -1,0 +1,5 @@
+# Rác macOS
+.DS_Store
+
+# Cấu hình quyền cục bộ của Claude Code, chỉ đúng với máy cá nhân
+.claude/settings.local.json

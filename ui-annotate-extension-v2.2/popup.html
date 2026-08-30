@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body {
+        width: 320px; margin: 0; padding: 14px;
+        font: 13px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        color: #0f172a; background: #fff;
+      }
+      h1 { font-size: 13px; margin: 0 0 2px; }
+      .origin {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px; color: #64748b; word-break: break-all; margin-bottom: 12px;
+      }
+      .count { display: flex; align-items: baseline; gap: 6px; margin-bottom: 12px; }
+      .count b { font-size: 26px; line-height: 1; }
+      .count span { color: #64748b; font-size: 12px; }
+      .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+      button {
+        border: 1px solid #cbd5e1; background: #f8fafc; color: #0f172a;
+        border-radius: 7px; padding: 7px 10px; cursor: pointer; font: inherit; font-size: 12px;
+      }
+      button:hover { background: #eef2f7; }
+      button.primary { background: #2563eb; border-color: #2563eb; color: #fff; }
+      button.primary:hover { background: #1d4ed8; }
+      button.danger:hover { background: #fef2f2; border-color: #fca5a5; color: #b91c1c; }
+      button:disabled { opacity: .5; cursor: default; }
+      button.wide { grid-column: 1 / -1; }
+      .toggle {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-top: 12px; padding-top: 12px; border-top: 1px solid #f1f5f9;
+      }
+      .toggle label { font-size: 12px; }
+      .toggle kbd {
+        font-family: ui-monospace, Menlo, monospace; font-size: 10px;
+        background: #f1f5f9; border-radius: 4px; padding: 1px 5px; color: #475569;
+      }
+      .others { margin-top: 12px; padding-top: 10px; border-top: 1px solid #f1f5f9; }
+      .others h2 { font-size: 11px; color: #64748b; margin: 0 0 6px; font-weight: 550; }
+      .others a {
+        display: flex; justify-content: space-between; gap: 8px; padding: 4px 0;
+        color: #334155; text-decoration: none; font-size: 11px; cursor: pointer;
+      }
+      .others a:hover { color: #2563eb; }
+      .others em { color: #94a3b8; font-style: normal; }
+      .hint { margin-top: 10px; font-size: 11px; color: #64748b; line-height: 1.5; }
+      #flash {
+        margin-top: 10px; font-size: 11px; color: #166534;
+        background: #dcfce7; border-radius: 6px; padding: 6px 8px; display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>UI Annotate</h1>
+    <div class="origin" id="origin">…</div>
+
+    <div class="count">
+      <b id="total">0</b>
+      <span id="detail">ghi chú</span>
+    </div>
+
+    <div class="actions">
+      <button class="primary wide" id="copy">Copy .md toàn site</button>
+      <button id="download">Tải .md</button>
+      <button class="danger" id="clear">Xoá hết</button>
+    </div>
+
+    <div id="flash"></div>
+
+    <div class="toggle">
+      <label><input type="checkbox" id="enabled" /> Bật overlay ghi chú</label>
+      <kbd>Alt+Shift+H</kbd>
+    </div>
+
+    <div class="others" id="others" hidden>
+      <h2>Site khác đang có ghi chú</h2>
+      <div id="othersList"></div>
+    </div>
+
+    <p class="hint">
+      Giữ <b>Alt</b> rồi click element bất kỳ để ghi chú · <b>Alt+Shift+A</b> mở panel.
+      Ghi chú của cùng một site được gom chung, xuất ra một file duy nhất.
+    </p>
+
+    <script src="shared.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
