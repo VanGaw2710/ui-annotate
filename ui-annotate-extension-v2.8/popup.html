@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="vi" data-uia-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      /* Palette ZEN Kaiz (Neutral Emphasis) — trùng palette overlay trong content.js */
+      :root, [data-uia-theme="light"] {
+        --surface: #ffffff; --text: #0d0d0d; --text-3: #00000081; --line: #01010110; --subtle: #01010110;
+        --primary: #0d0d0d; --primary-hover: #5c5c5c; --on-primary: #f5f5f5;
+        --ter: #ffffff; --ter-hover: #05050508; --ter-line: #0101011d;
+        --neg-subtle: #ff350219; --neg-text: #d03e19; --pos-subtle: #01b40922; --pos-text: #259842;
+        --accent: #f263ca; --shadow-sm: 0px 1px 1px 0px #0000000a; --ring: #0101012f;
+        color-scheme: light;
+      }
+      [data-uia-theme="dark"] {
+        --surface: #191919; --text: #f5f5f5; --text-3: #ffffff8e; --line: #fcfcfc11; --subtle: #fcfcfc11;
+        --primary: #f5f5f5; --primary-hover: #cecece; --on-primary: #0d0d0d;
+        --ter: #191919; --ter-hover: #fcfcfc09; --ter-line: #fdfdfd20;
+        --neg-subtle: #ff5e2e21; --neg-text: #fb6743; --pos-subtle: #4dfd6515; --pos-text: #53be66;
+        --accent: #f263ca; --shadow-sm: 0px 1px 1px 0px #00000029; --ring: #ffffff39;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      body {
+        width: 320px; margin: 0; padding: 16px;
+        font: 13px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        letter-spacing: -0.01em; color: var(--text); background: var(--surface);
+        -webkit-font-smoothing: antialiased;
+        transition: background-color 300ms cubic-bezier(.2,0,0,1), color 300ms cubic-bezier(.2,0,0,1);
+      }
+      h1 { font-size: 14px; font-weight: 600; margin: 0 0 2px; display: flex; align-items: center; gap: 8px; }
+      h1 i { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
+      .origin {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0;
+        font-size: 11px; color: var(--text-3); word-break: break-all; margin-bottom: 14px;
+      }
+      .count { display: flex; align-items: baseline; gap: 6px; margin-bottom: 14px; }
+      .count b { font-size: 32px; line-height: 1; font-weight: 600; letter-spacing: -0.04em; }
+      .count span { color: var(--text-3); font-size: 12px; }
+      .actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+      button {
+        height: 36px; border: 1px solid var(--ter-line); background: var(--ter); color: var(--text);
+        border-radius: 999px; padding: 0 14px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 600;
+        box-shadow: var(--shadow-sm);
+        transition: transform 450ms cubic-bezier(.34,1.56,.64,1), background-color 200ms cubic-bezier(.2,0,0,1), color 200ms;
+      }
+      button:hover { background: var(--ter-hover); }
+      button:active:not(:disabled) { transform: scale(.97,.92); transition-duration: 120ms; }
+      button:focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; }
+      button.primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+      button.primary:hover { background: var(--primary-hover); }
+      button.danger:hover { background: var(--neg-subtle); border-color: transparent; color: var(--neg-text); }
+      button:disabled { opacity: .45; cursor: default; }
+      .section { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+      .line { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .line label { font-size: 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+      kbd {
+        font-family: ui-monospace, Menlo, monospace; font-size: 10px; letter-spacing: 0;
+        border: 1px solid var(--ter-line); background: var(--ter); border-radius: 4px; padding: 1px 5px; color: var(--text-3);
+      }
+      .seg { display: flex; gap: 2px; padding: 2px; border-radius: 999px; background: var(--subtle); }
+      .seg button { height: 26px; border: 0; background: none; box-shadow: none; padding: 0 10px; color: var(--text-3); font-weight: 500; }
+      .seg button.on { background: var(--ter); color: var(--text); box-shadow: var(--shadow-sm); }
+      .others h2 { font-size: 11px; color: var(--text-3); margin: 0 0 6px; font-weight: 500; }
+      .others a {
+        display: flex; justify-content: space-between; gap: 8px; padding: 6px 8px; margin: 0 -8px; border-radius: 8px;
+        color: var(--text); text-decoration: none; font-size: 11px; cursor: pointer; transition: background-color 200ms;
+      }
+      .others a:hover { background: var(--ter-hover); }
+      .others em { color: var(--text-3); font-style: normal; }
+      .hint { margin: 12px 0 0; font-size: 11px; color: var(--text-3); line-height: 1.55; }
+      .hint b { color: var(--text); font-weight: 600; }
+      #flash {
+        margin-top: 12px; font-size: 11px; font-weight: 500; color: var(--pos-text);
+        background: var(--pos-subtle); border-radius: 8px; padding: 8px 10px; display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><i></i>UI Annotate</h1>
+    <div class="origin" id="origin">…</div>
+
+    <div class="count">
+      <b id="total">0</b>
+      <span id="detail">ghi chú</span>
+    </div>
+
+    <div class="actions">
+      <button class="primary" id="copy">Copy .md toàn site</button>
+      <button class="danger" id="clear">Xoá hết</button>
+    </div>
+
+    <div id="flash"></div>
+
+    <div class="section line">
+      <label><input type="checkbox" id="enabled" /> Bật overlay ghi chú</label>
+      <kbd>Alt+Shift+H</kbd>
+    </div>
+
+    <div class="section line">
+      <span style="font-size: 12px">Giao diện</span>
+      <div class="seg" id="theme">
+        <button data-v="auto">Tự động</button>
+        <button data-v="light">Sáng</button>
+        <button data-v="dark">Tối</button>
+      </div>
+    </div>
+
+    <div class="section others" id="others" hidden>
+      <h2>Site khác đang có ghi chú</h2>
+      <div id="othersList"></div>
+    </div>
+
+    <p class="hint">
+      Nhấn <b>A</b> (hoặc giữ <b>Alt</b>) rồi click element bất kỳ để ghi chú · <b>Alt+Shift+A</b> mở panel · <b>Alt+Shift+M</b> ẩn/hiện ghim.
+      Ghi chú của cùng một site được gom chung, xuất ra một file duy nhất.
+    </p>
+
+    <script src="store-chrome.js"></script>
+    <script src="shared.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
